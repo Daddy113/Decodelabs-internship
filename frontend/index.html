@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DecodeLabs Intern Registry — A full-stack web application for managing intern registrations, development tracks, and team profiles. Batch 2026.">
+    <meta name="theme-color" content="#C69A7E">
+    <title>DecodeLabs - Intern Registry</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Roboto:wght@400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- App Container -->
+    <div id="app">
+        <!-- Header Section -->
+        <header id="app-header" role="banner">
+            <div class="logo-container">
+                <span class="logo-glow" aria-hidden="true"></span>
+                <span class="logo-text">DECODE<span class="logo-accent">LABS</span></span>
+            </div>
+            <nav id="app-nav" aria-label="Application controls">
+                <span class="nav-tag">BATCH 2026</span>
+                <span class="nav-status" aria-live="polite">API: <span id="api-status-indicator" class="status-dot offline" role="status" aria-label="API connection status"></span></span>
+                <button id="btn-theme-toggle" class="theme-toggle-btn" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+                    <span class="theme-icon" id="theme-icon" aria-hidden="true">
+                        <!-- Moon icon (light theme default) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                    </span>
+                </button>
+            </nav>
+        </header>
+
+        <!-- Notification Banner Area -->
+        <div id="banner-container" role="alert" aria-live="polite"></div>
+
+        <!-- Statistics Dashboard -->
+        <section id="stats-dashboard" aria-label="Intern statistics">
+            <div class="stat-card" id="stat-total">
+                <div class="stat-icon" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value" id="stat-total-count">0</span>
+                    <span class="stat-label">Total Interns</span>
+                </div>
+            </div>
+            <div class="stat-card" id="stat-frontend">
+                <div class="stat-icon" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c1.1 0 2-.9 2-2 0-.5-.2-.9-.5-1.3-.3-.3-.5-.8-.5-1.3 0-1.1.9-2 2-2h1.5c2.5 0 4.5-2 4.5-4.5C22 5.8 17.5 2 12 2Z"/><circle cx="7.5" cy="10.5" r="1"/><circle cx="11.5" cy="7.5" r="1"/><circle cx="16.5" cy="9.5" r="1"/></svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value" id="stat-frontend-count">0</span>
+                    <span class="stat-label">Frontend</span>
+                </div>
+            </div>
+            <div class="stat-card" id="stat-backend">
+                <div class="stat-icon" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value" id="stat-backend-count">0</span>
+                    <span class="stat-label">Backend</span>
+                </div>
+            </div>
+            <div class="stat-card" id="stat-fullstack">
+                <div class="stat-icon" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-10 5 10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value" id="stat-fullstack-count">0</span>
+                    <span class="stat-label">Full Stack</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Layout Section -->
+        <main id="app-main" role="main">
+            <!-- Main Content Area: Registry Dashboard -->
+            <section id="dashboard" aria-label="Intern registry dashboard">
+                <header class="dashboard-header">
+                    <div class="title-area">
+                        <div class="title-row">
+                            <h1>Intern Registry</h1>
+                            <button id="btn-open-register" class="btn btn-primary" type="button" aria-label="Register new intern">
+                                <span class="btn-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                                </span> Register Intern
+                            </button>
+                        </div>
+                        <p class="registry-count">Active Interns: <span id="intern-count">0</span></p>
+                    </div>
+                    
+                    <!-- Search, Sort & Filter Controls -->
+                    <div class="controls-area">
+                        <div class="search-box">
+                            <input type="search" id="search-input" placeholder="Search by name or email..." aria-label="Search interns">
+                        </div>
+                        <div class="sort-box">
+                            <select id="sort-select" aria-label="Sort interns">
+                                <option value="newest">Newest First</option>
+                                <option value="oldest">Oldest First</option>
+                                <option value="name-asc">Name A→Z</option>
+                                <option value="name-desc">Name Z→A</option>
+                                <option value="role">By Track</option>
+                            </select>
+                        </div>
+                        <div class="filter-box">
+                            <select id="filter-role" aria-label="Filter by development track">
+                                <option value="all">All Tracks</option>
+                                <option value="Frontend">Frontend Only</option>
+                                <option value="Backend">Backend Only</option>
+                                <option value="Full Stack">Full Stack Only</option>
+                            </select>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Grid view for Interns -->
+                <div class="grid-container">
+                    <!-- Loading State -->
+                    <div id="registry-loader" class="loader-overlay hidden" aria-label="Loading interns">
+                        <div class="spinner" aria-hidden="true"></div>
+                        <p>Synchronizing with database...</p>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="empty-state" class="empty-card">
+                        <div class="empty-icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2"/></svg>
+                        </div>
+                        <h3>No Interns Registered</h3>
+                        <p>Get started by registering a new developer.</p>
+                    </div>
+
+                    <!-- Intern Cards Container -->
+                    <div id="interns-grid" class="cards-grid" role="list" aria-label="Intern cards"></div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Registration/Edit Modal Dialog -->
+        <div id="form-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="form-title">
+            <div class="modal-card form-modal-card">
+                <button id="btn-close-form-modal" class="modal-close-btn" type="button" aria-label="Close modal">&times;</button>
+                <header class="modal-header">
+                    <h2 id="form-title">Register New Intern</h2>
+                    <p class="subtitle" id="form-subtitle">Enter the details below to add a new intern to the team registry.</p>
+                </header>
+                
+                <form id="register-form" novalidate aria-labelledby="form-title">
+                    <div class="form-group">
+                        <label for="input-name">Full Name</label>
+                        <input type="text" id="input-name" placeholder="e.g. Jane Doe" required minlength="2" maxlength="50" autocomplete="name">
+                        <span class="error-msg" id="name-error" role="alert"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-email">Email Address</label>
+                        <input type="email" id="input-email" placeholder="e.g. jane@decodelabs.tech" required autocomplete="email">
+                        <span class="error-msg" id="email-error" role="alert"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-role">Development Track</label>
+                        <select id="input-role" required>
+                            <option value="" disabled selected>Select a track...</option>
+                            <option value="Frontend">Frontend Developer</option>
+                            <option value="Backend">Backend Developer</option>
+                            <option value="Full Stack">Full Stack Developer</option>
+                        </select>
+                        <span class="error-msg" id="role-error" role="alert"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-bio">Personal Biography</label>
+                        <textarea id="input-bio" rows="4" placeholder="Brief background or key skills... (max 200 chars)" maxlength="200"></textarea>
+                        <div class="bio-meta">
+                            <span class="error-msg" id="bio-error" role="alert"></span>
+                            <span class="char-counter" id="bio-counter" aria-live="polite">0 / 200</span>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" id="btn-submit" class="btn btn-primary">
+                            <span class="btn-text" id="btn-submit-text">Register Intern</span>
+                            <div class="btn-loader hidden" id="submit-loader" aria-hidden="true"></div>
+                        </button>
+                        <button type="button" id="btn-cancel-edit" class="btn btn-secondary" aria-label="Cancel registration">
+                            <span class="btn-text">Cancel</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Custom Delete Confirmation Modal -->
+        <div id="delete-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <div class="modal-card">
+                <div class="modal-icon" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <h3 id="modal-title">Confirm Deletion</h3>
+                <p id="modal-message" class="modal-message">Are you sure you want to remove this intern from the registry?</p>
+                <div class="modal-actions">
+                    <button id="modal-cancel" class="btn btn-secondary" type="button">Cancel</button>
+                    <button id="modal-confirm" class="btn btn-danger" type="button">Remove Intern</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Section -->
+        <footer id="app-footer" role="contentinfo">
+            <div class="footer-brand">
+                <p>DECODELABS // PROJECT 4 INTEGRATION</p>
+            </div>
+            <div class="footer-meta">
+                <p>Powered by Django & SQLite.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Application Script -->
+    <script src="app.js"></script>
+</body>
+</html>
