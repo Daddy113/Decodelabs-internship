@@ -90,7 +90,7 @@ decodelabs-internship/
 
 ```bash
 git clone https://github.com/Daddy113/Decodelabs-internship.git
-cd decodelabs-internship
+cd Decodelabs-internship
 ```
 
 ### 2. Create a virtual environment
