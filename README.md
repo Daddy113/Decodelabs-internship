@@ -1,6 +1,6 @@
-# DecodeLabs — Intern Registry
+# DecodeLabs -- Project 4: Frontend and Backend Integration
 
-A full-stack web application for managing intern registrations, development tracks, and team profiles. Built with **Django REST Framework** on the backend and a **vanilla HTML/CSS/JavaScript** frontend.
+A full-stack web application integrating the frontend interface with the backend API for the DecodeLabs Intern Registry. Built with **Django REST Framework** on the backend and **vanilla HTML/CSS/JavaScript** on the frontend, demonstrating end-to-end data flow.
 
 ---
 
@@ -10,29 +10,30 @@ A full-stack web application for managing intern registrations, development trac
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
 - [Prerequisites](#prerequisites)
-- [Installation & Setup](#installation--setup)
+- [Installation and Setup](#installation-and-setup)
 - [Running the Application](#running-the-application)
 - [API Endpoints](#api-endpoints)
 - [Running Tests](#running-tests)
-- [Screenshots](#screenshots)
 - [License](#license)
 
 ---
 
 ## Features
 
-- **Full CRUD Operations** — Create, Read, Update, and Delete intern records
-- **RESTful API** — Django REST Framework with ModelViewSet for clean API design
-- **Search & Filter** — Search interns by name or email, filter by development track (Frontend, Backend, Full Stack)
-- **Sorting** — Sort by newest, oldest, name (A-Z / Z-A), or development track
-- **Dark Mode** — Toggle between light and dark themes, with system preference detection
-- **Statistics Dashboard** — Real-time counters for total interns and per-track breakdowns
-- **Mock Fallback Mode** — Frontend works standalone with mock data when the backend is offline
-- **Form Validation** — Client-side and server-side validation with duplicate email detection
-- **Responsive Design** — Mobile-friendly layout with modern CSS Grid
-- **Animated UI** — Smooth transitions, counter animations, staggered card reveals, and micro-interactions
-- **Accessibility** — ARIA labels, roles, keyboard navigation (Escape to close modals), and live regions
-- **Custom Modals** — Styled confirmation dialogs for delete operations and registration forms
+- **Full-Stack Integration** -- Frontend communicates with backend via RESTful API using Fetch API
+- **Asynchronous Requests** -- Modern async/await pattern for non-blocking API calls
+- **Dynamic Data Rendering** -- UI updates in real-time from API responses with DOM manipulation
+- **Error Handling** -- try/catch blocks with graceful degradation and user-friendly error messages
+- **CORS Configuration** -- Cross-origin requests properly configured between frontend and backend
+- **Mock Fallback Mode** -- Frontend automatically detects backend availability and falls back to mock data
+- **Full CRUD Operations** -- Create, Read, Update, and Delete interns through the UI
+- **Search, Filter, and Sort** -- Client-side and server-side search, filtering by role, and sorting
+- **Dark Mode** -- Theme toggle with system preference detection and localStorage persistence
+- **Statistics Dashboard** -- Animated counters showing intern counts by development track
+- **Form Validation** -- Both client-side and server-side validation with duplicate email detection
+- **Responsive Design** -- Mobile-first layout with CSS Grid and Flexbox
+- **Accessibility** -- ARIA labels, roles, keyboard navigation, and live regions
+- **Comprehensive Tests** -- 12 automated API tests covering all endpoints and edge cases
 
 ---
 
@@ -51,14 +52,14 @@ A full-stack web application for managing intern registrations, development trac
 ## Project Structure
 
 ```
-decodelabs-internship/
+Decodelabs-internship/
 ├── backend/                    # Django backend
 │   ├── api/                    # Main API app
 │   │   ├── models.py           # Intern model definition
 │   │   ├── serializers.py      # DRF serializers with email validation
 │   │   ├── views.py            # InternViewSet with search/filter/ordering
 │   │   ├── urls.py             # API router configuration
-│   │   ├── tests.py            # Comprehensive API test suite
+│   │   ├── tests.py            # Comprehensive API test suite (12 tests)
 │   │   └── admin.py            # Django admin registration
 │   ├── backend_project/        # Django project configuration
 │   │   ├── settings.py         # Project settings (CORS, apps, middleware)
@@ -70,7 +71,7 @@ decodelabs-internship/
 ├── frontend/                   # Frontend application
 │   ├── index.html              # Main HTML page
 │   ├── styles.css              # Complete stylesheet (dark mode, animations)
-│   └── app.js                  # Application logic (CRUD, search, theming)
+│   └── app.js                  # Application logic (CRUD, API integration, theming)
 └── README.md                   # This file
 ```
 
@@ -78,13 +79,13 @@ decodelabs-internship/
 
 ## Prerequisites
 
-- **Python 3.10+** — [Download Python](https://www.python.org/downloads/)
-- **pip** — Python package manager (included with Python)
+- **Python 3.10+** -- [Download Python](https://www.python.org/downloads/)
+- **pip** -- Python package manager (included with Python)
 - A modern web browser (Chrome, Firefox, Edge, Safari)
 
 ---
 
-## Installation & Setup
+## Installation and Setup
 
 ### 1. Clone the repository
 
@@ -99,16 +100,10 @@ cd Decodelabs-internship
 python -m venv venv
 ```
 
-**Activate the virtual environment:**
+Activate it:
 
-- **Windows:**
-  ```bash
-  venv\Scripts\activate
-  ```
-- **macOS / Linux:**
-  ```bash
-  source venv/bin/activate
-  ```
+- **Windows:** `venv\Scripts\activate`
+- **macOS/Linux:** `source venv/bin/activate`
 
 ### 3. Install backend dependencies
 
@@ -121,12 +116,6 @@ pip install django djangorestframework django-cors-headers
 ```bash
 cd backend
 python manage.py migrate
-```
-
-### 5. (Optional) Create a superuser for Django Admin
-
-```bash
-python manage.py createsuperuser
 ```
 
 ---
@@ -147,14 +136,13 @@ The API will be available at: `http://127.0.0.1:8000/api/interns/`
 Open `frontend/index.html` in your browser, or use a local server:
 
 ```bash
-# Using Python's built-in HTTP server
 cd frontend
 python -m http.server 5500
 ```
 
 Then navigate to `http://localhost:5500` in your browser.
 
-> **Note:** The frontend automatically detects the backend's availability. If the API is unreachable, it seamlessly switches to a mock data mode so you can still explore the UI.
+The frontend automatically detects the backend's availability. If the API is unreachable, it switches to mock data mode.
 
 ---
 
@@ -174,64 +162,40 @@ Then navigate to `http://localhost:5500` in your browser.
 | Parameter   | Example                            | Description                     |
 |-------------|------------------------------------|---------------------------------|
 | `search`    | `/api/interns/?search=alice`       | Search by name or email         |
-| `ordering`  | `/api/interns/?ordering=name`      | Sort by `name`, `created_at`, or `role` |
+| `ordering`  | `/api/interns/?ordering=name`      | Sort by name, created_at, or role |
 | `role`      | `/api/interns/?role=Frontend`      | Filter by development track     |
-
-### Sample Request
-
-```bash
-curl -X POST http://127.0.0.1:8000/api/interns/ \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "Jane Doe",
-    "email": "jane@decodelabs.tech",
-    "role": "Full Stack",
-    "bio": "Passionate about bridging frontend and backend development."
-  }'
-```
 
 ---
 
 ## Running Tests
-
-The project includes a comprehensive test suite covering CRUD operations, search, filtering, ordering, and edge cases.
 
 ```bash
 cd backend
 python manage.py test api
 ```
 
-**Test coverage includes:**
-- Create intern (success and duplicate email)
-- List all interns
-- Update intern (PUT)
-- Partial update (PATCH)
-- Delete intern
-- Search by name and email
-- Filter by role
-- Ordering by name
-- Edge cases (empty name, bio max length)
+Test coverage includes: CRUD operations, search, filtering, ordering, duplicate email rejection, and edge cases.
 
 ---
 
-## Screenshots
+## Key Skills Demonstrated
 
-### Light Mode
-> Register and manage interns with a clean, warm-toned interface.
-
-### Dark Mode
-> Switch to dark mode for comfortable viewing in low-light environments.
+- API integration between frontend and backend
+- Asynchronous requests with async/await and Fetch API
+- Full-stack data flow (Input-Process-Output)
+- Error handling and graceful degradation
+- CORS configuration and cross-origin communication
+- Dynamic DOM manipulation from API responses
 
 ---
 
 ## License
 
-This project is part of the **DecodeLabs Full Stack Developer Program — Batch 2026**.
+This project is part of the **DecodeLabs Full Stack Developer Program -- Batch 2026**.
 
 ---
 
 <p align="center">
-  <strong>DECODELABS</strong> // PROJECT 4 — Full-Stack Integration<br>
-  Powered by Django & SQLite
+  <strong>DECODELABS</strong> // PROJECT 4 -- Frontend and Backend Integration<br>
+  Batch 2026
 </p>
-
